@@ -1,26 +1,37 @@
 import "../pages/index.css";
 import { initialCards } from "./cards.js";
+import "./validate.js";
+import {clearValidation, enableValidation} from './validate.js';
 
 const cardTemplate = document.querySelector("#card-template").content;
 const cardsList = document.querySelector(".places__list");
 const addButton = document.querySelector(".profile__add-button");
 const editButton = document.querySelector(".profile__edit-button");
 const closeButtons = document.querySelectorAll(".popup__close");
-const inputElementName = document.querySelector(".popup__input_type_name");
-const inputElementDescription = document.querySelector(
+export const inputElementName = document.querySelector(".popup__input_type_name");
+export const inputElementDescription = document.querySelector(
   ".popup__input_type_description"
 );
-const inputElementCardName = document.querySelector(
+export const inputElementCardName = document.querySelector(
   ".popup__input_type_card-name"
 );
-const inputElementCardUrl = document.querySelector(".popup__input_type_url");
+export const inputElementCardUrl = document.querySelector(".popup__input_type_url");
 const profileDescription = document.querySelector(".profile__description");
 const profileTitle = document.querySelector(".profile__title");
 const newPlaceModal = document.querySelector(".popup_type_new-card");
 const editProfileModal = document.querySelector(".popup_type_edit");
 const imageModal = document.querySelector(".popup_type_image");
-const newCardForm = document.querySelector('.popup__form[name="new-place"]');
-const editProfileForm = document.querySelector(
+const settings = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+};
+
+export const newCardForm = document.querySelector('.popup__form[name="new-place"]');
+export const editProfileForm = document.querySelector(
   '.popup__form[name="edit-profile"]'
 );
 
@@ -34,16 +45,22 @@ function setValues() {
 function openModal(modal) {
   modal.classList.add("popup_is-opened");
   document.addEventListener("keydown", closeModalByEscape);
+
   if (modal === editProfileModal) {
     setValues();
   }
+
+  const form = modal.querySelector(settings.formSelector);
+  if (form) {
+    form.reset();
+    clearValidation(form, settings);
+  }
 }
+
 
 function closeModal(modal) {
   modal.classList.remove("popup_is-opened");
   document.removeEventListener("keydown", closeModalByEscape);
-
-  resetNewCardForm();
 }
 
 function closeModalByEscape(evt) {
@@ -53,10 +70,6 @@ function closeModalByEscape(evt) {
       closeModal(openedModal);
     }
   }
-}
-
-function resetNewCardForm() {
-  newCardForm.reset();
 }
 
 function closeModalByOverlay(evt) {
@@ -153,3 +166,6 @@ initialCards.forEach((cardData) => {
   const cardElement = createCard(cardData);
   cardsList.append(cardElement);
 });
+
+enableValidation(settings)
+
