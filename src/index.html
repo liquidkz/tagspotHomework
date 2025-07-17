@@ -14,7 +14,9 @@
     </header>
     <main class="content">
         <section class="profile page__section">
-            <div class="profile__image"></div>
+            <div class="profile__image-wrapper">
+                <div class="profile__image"></div>
+            </div>
             <div class="profile__info">
                 <h1 class="profile__title">Клинт Иствуд</h1>
                 <button class="profile__edit-button" type="button"></button>
@@ -112,13 +114,37 @@
     </div>
 </div>
 
+<div class="popup popup_type_edit-avatar">
+    <div class="popup__content">
+        <button type="button" class="popup__close"></button>
+        <h3 class="popup__title">Обновить аватар</h3>
+        <form class="popup__form" name="avatar-link" novalidate>
+            <input
+                    type="url"
+                    name="place-name"
+                    id="avatar-link-input"
+                    class="popup__input popup__input_type_avatar-link"
+                    placeholder="Ссылка на аватар"
+                    required
+                    pattern="https?://.+"/>
+            <span class="field-errors popup__error" id="avatr-link-input-error"></span>
+            <span class="field-errors popup__error" id="avatar-link-input-error"></span>
+
+            <button type="submit" class="button popup__button">Сохранить</button>
+        </form>
+    </div>
+</div>
+
 <template id="card-template">
     <li class="places__item card">
         <img class="card__image" src="" alt="" />
         <button type="button" class="card__delete-button"></button>
         <div class="card__description">
             <h2 class="card__title"></h2>
-            <button type="button" class="card__like-button"></button>
+            <div class="card__likes-container">
+                <button type="button" class="card__like-button"></button>
+                <span class="card__like-counter">0</span>
+            </div>
         </div>
     </li>
 </template>
